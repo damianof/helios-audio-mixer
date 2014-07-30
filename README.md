@@ -86,7 +86,7 @@ function cats(){
 ```
 
 
-## Reference
+## API Reference
 
 ### Detect Object
 
@@ -111,6 +111,8 @@ Detect = {
 
 `audioTypes: [ 'm4a', 'mp3', 'ogg' ]` List file types in order of preference. The first type available in the current browser will be used.
 
+`videoTypes: [ '.webm', '.mp4', '.ogv' ]`
+
 ##### Events
 
 - `on('event',function)` events: see below
@@ -118,29 +120,29 @@ Detect = {
 
 ##### Track Management
 
-- `createTrack(name, opts)` see below for `opts`
+- `createTrack( name, opts )` see below for `opts`
 - `removeTrack(name)`
-- `removeTracks(group/*)`
-- `getTrack(name)`
-- `getTracks(group/*)`
+- `getTrack( name )`
+- `getTracks( group/* )`
+- `each( tracks, function(track){} )`
 
 ##### Globals
 
-- `pause()`
-- `play()`
-- `mute()`
+- `mute( toggle )`
 - `unmute()`
-- `setGain(0-1)`
+- `masterVolume( 0-1 )`
 
 ##### Utilities
 
 - `updateTween()` **IMPORTANT:** call this (or `TWEEN.update()`) using rAF for tweens to work
 - `setLogLvl()` 0 none, 1 minimal, 2 all (spammy)
+- `formatTime( seconds )` `78` -> `"01:18"`
 
-### Track/Group Methods
+### Getting Track(s)
 
-`Mix.getTrack('name').method()` ← access a single track
-`Mix.getTracks('group').method()` ← access a group
+`Mix.getTrack('name')` returns a single track. You can chain commands to the track, ie `Mix.getTrack('name').volume(1).currentTime(0)`.
+
+`Mix.getTracks('group')` returns an array of tracks. If you call it with no arguments, it will return all tracks. You can command multiple tracks using `each()`: `Mix.each( getTracks('group'), function(track){ track.volume(1) } )`.
 
 ##### Events
 
@@ -168,7 +170,6 @@ Detect = {
 ##### Time
 
 - `currentTime( setTo )` get/set current time in seconds
-- `formattedTime( includeDuration )` returns ie "00:23" or "00:23/00:45"
 - `duration()` get track duration in seconds
 
 
